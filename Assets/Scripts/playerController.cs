@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float acceleration = 10f;
+    [Header("Movement Settings")]
+    public float speed = 50f;
+    public float acceleration = 50f;
 
+    [Header("Jump Settings")]
     public float jumpForce = 300f;
+    public int maxJumpCount = 2;
+    private int jumpCount = 0;
 
     private Rigidbody rb;
     private Transform cam;
-    private bool isGrounded = false;
 
     void Start()
     {
@@ -27,9 +30,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
         {
             rb.AddForce(Vector3.up * jumpForce);
+            jumpCount++;
         }
     }
 
@@ -40,9 +44,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 inputDirection = new Vector3(horizontal, 0f, vertical);
         if (inputDirection.magnitude > 1f)
-        {
             inputDirection.Normalize();
-        }
 
         if (cam != null)
         {
@@ -66,15 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
+            jumpCount = 0;
         }
     }
 }
