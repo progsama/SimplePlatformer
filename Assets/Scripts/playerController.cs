@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float speed = 50f;
-    public float acceleration = 50f;
+    public float speed = 100f;
+    public float acceleration = 100f;
 
     [Header("Jump Settings")]
     public float jumpForce = 300f;
