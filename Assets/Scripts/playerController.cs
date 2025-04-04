@@ -11,6 +11,15 @@ public class PlayerController : MonoBehaviour
     public int maxJumpCount = 2;
     private int jumpCount = 0;
 
+    [Header("Dash Settings")]
+    public float dashForce = 20f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1.0f;
+    private bool isDashing = false;
+    private float dashTimer = 0f;
+    private float dashCooldownTimer = 0f;
+    private Vector3 lastMoveDirection = Vector3.zero;
+
     private Rigidbody rb;
     private Transform cam;
 
@@ -30,6 +39,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f && lastMoveDirection != Vector3.zero)
+        {
+            isDashing = true;
+            dashTimer = dashDuration;
+            dashCooldownTimer = dashCooldown;
+        }
+
+        if (dashCooldownTimer > 0f)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+        }
+        if (isDashing)
+        {
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
         {
             rb.AddForce(Vector3.up * jumpForce);
@@ -56,13 +84,23 @@ public class PlayerController : MonoBehaviour
             camRight.Normalize();
 
             Vector3 moveDirection = (camForward * vertical + camRight * horizontal).normalized;
-            Vector3 targetVelocity = moveDirection * speed;
 
-            targetVelocity.y = rb.linearVelocity.y;
-
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            if (moveDirection != Vector3.zero)
+                lastMoveDirection = moveDirection;
+            if (isDashing)
+            {
+                Vector3 dashVelocity = lastMoveDirection * dashForce;
+                dashVelocity.y = rb.linearVelocity.y;
+                rb.linearVelocity = dashVelocity;
+            }
+            else
+            {
+                Vector3 targetVelocity = moveDirection * speed;
+                targetVelocity.y = rb.linearVelocity.y;
+                rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            }
         }
-    }
+        }
 
     void OnCollisionEnter(Collision collision)
     {
