@@ -3,15 +3,41 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int score;
+    [Header("Score")]
+    public int score = 0;
+    private bool gameEnded = false;
 
+    [Header("HUD UI")]
     [SerializeField] private CoinCounterUI coinCounterUI;
 
-    public void AddCoin(int amount)
+    [Header("Settings Menu")]
+    [SerializeField] private SettingsMenu settingsMenu;
+
+    private int coinsRemaining;
+
+    private void Start()
     {
-        score += amount;
+        coinsRemaining = GameObject.FindGameObjectsWithTag("Coin").Length;
 
         if (coinCounterUI != null)
             coinCounterUI.UpdateScore(score);
+    }
+
+    public void AddCoin(int amount)
+    {
+        if (gameEnded) return;
+
+        score += amount;
+        coinsRemaining--;
+
+        if (coinCounterUI != null) coinCounterUI.UpdateScore(score);
+
+        if (coinsRemaining <= 0)
+        {
+            gameEnded = true;
+
+            if (settingsMenu != null)
+                settingsMenu.ShowMenu(true);
+        }
     }
 }
