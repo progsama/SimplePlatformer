@@ -1,3 +1,4 @@
+
 # Simple Platformer
 
 A 3D platformer game built in Unity. Move through the level, collect coins, and reach the goal.
@@ -21,6 +22,7 @@ A 3D platformer game built in Unity. Move through the level, collect coins, and 
 ### Settings & UI
 - **Settings menu** — Open and close with **ESC**. When open, the game is paused (time scale 0).
 - **Speed slider** — Adjust player movement speed from the settings menu.
+- **No Out of Bounds ** - Established invisible boundary walls to prevent the player from falling out of bounds.
 - **Play** — Resume the game from the menu.
 - **Exit** — Quit the application (or stop Play mode in the editor).
 
@@ -58,3 +60,5 @@ A 3D platformer game built in Unity. Move through the level, collect coins, and 
 ---
 
 *Simple Platformer — a small 3D platformer with movement, collectibles, and a settings menu.*
+
+
