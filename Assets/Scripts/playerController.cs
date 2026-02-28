@@ -65,6 +65,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+
+
     void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");

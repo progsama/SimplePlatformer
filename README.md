@@ -1,32 +1,64 @@
-Studio Development Overview:
 
-Player Mechanics:
+# Simple Platformer
 
-Implemented a third-person free-look camera that enables the player to look around seamlessly.
+A 3D platformer game built in Unity. Move through the level, collect coins, and reach the goal.
 
-Developed smooth movement controls where the player's direction aligns with the camera's orientation.
+![Simple Platformer](Simple%20Platformer.gif)
 
-Integrated precise jump mechanics, allowing the player to leap onto elevated platforms with controlled jumps.
+## Features
 
-Environment Design:
+### Player movement
+- **WASD movement** — Move in all directions; movement is relative to the camera.
+- **Double jump** — Jump up to two times before landing (Space).
+- **Dash** — Quick burst in your current movement direction with Left Shift. Has a cooldown.
 
-Created a dynamic environment featuring strategically placed boxes for platforming challenges.
+### Collectibles
+- **Coins** — Collect coins scattered across the level. Each coin adds to your score and is removed when collected. Coins rotate for a simple visual effect.
 
-Established invisible boundary walls to prevent the player from falling out of bounds.
+### Game flow
+- **Score & coin counter** — The UI shows your current coin count with an animated counter (TextMeshPro).
+- **Win condition** — When all coins are collected, the game ends and the settings menu is shown.
 
-Added collectible coins positioned on top of boxes; these coins disappear upon collection and automatically update the on-screen score.
+### Settings & UI
+- **Settings menu** — Open and close with **ESC**. When open, the game is paused (time scale 0).
+- **Speed slider** — Adjust player movement speed from the settings menu.
+- **No Out of Bounds ** - Established invisible boundary walls to prevent the player from falling out of bounds.
+- **Play** — Resume the game from the menu.
+- **Exit** — Quit the application (or stop Play mode in the editor).
 
-Project Management:
+## Controls
 
-Maintained a detailed Git commit history throughout development.
+| Action        | Key          |
+|---------------|--------------|
+| Move          | W A S D      |
+| Jump          | Space        |
+| Dash          | Left Shift   |
+| Pause / Menu  | Escape       |
 
-Provided a comprehensive README, complete with a demonstration video outlining the gameplay and features.
+## Project structure (scripts)
 
-Bonus Features:
+| Script            | Role                                                                 |
+|-------------------|----------------------------------------------------------------------|
+| `PlayerController`| Movement, jumping, dashing; speed can be set by the settings menu.   |
+| `GameManager`     | Tracks score and coins; shows settings menu when all coins are collected. |
+| `Coin`            | Collectible; adds to score and destroys itself when the player touches it. |
+| `CoinCounterUI`   | Displays and animates the coin count on the HUD.                     |
+| `RotateCoin`      | Rotates coin objects for a simple idle animation.                    |
+| `SettingsMenu`    | Pause menu, speed slider, Play/Exit buttons; controls time scale.    |
 
-Enhanced player mobility by implementing double jump functionality.
+## Requirements
 
-Integrated a dash feature, adding an extra layer of dynamic movement.
+- **Unity** (project uses Unity 6 / current LTS; URP and TextMesh Pro are used).
+- Open **SampleScene** in `Assets/Scenes/` to play.
 
-https://github.com/user-attachments/assets/4646fd3f-3780-425d-9343-0fe15fdd5d78
+## How to run
+
+1. Open the project in Unity.
+2. Open `Assets/Scenes/SampleScene.unity`.
+3. Press Play.
+
+---
+
+*Simple Platformer — a small 3D platformer with movement, collectibles, and a settings menu.*
+
 

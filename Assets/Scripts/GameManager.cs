@@ -3,44 +3,41 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
+    [Header("Score")]
     public int score = 0;
+    private bool gameEnded = false;
 
-    public Text scoreText;
+    [Header("HUD UI")]
+    [SerializeField] private CoinCounterUI coinCounterUI;
 
-    void Awake()
+    [Header("Settings Menu")]
+    [SerializeField] private SettingsMenu settingsMenu;
+
+    private int coinsRemaining;
+
+    private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        coinsRemaining = GameObject.FindGameObjectsWithTag("Coin").Length;
+
+        if (coinCounterUI != null)
+            coinCounterUI.UpdateScore(score);
     }
 
-    void Start()
+    public void AddCoin(int amount)
     {
-        UpdateScoreUI();
-    }
+        if (gameEnded) return;
 
-    public void AddScore(int amount)
-    {
         score += amount;
-        UpdateScoreUI();
-    }
+        coinsRemaining--;
 
-    private void UpdateScoreUI()
-    {
-        if (scoreText != null)
+        if (coinCounterUI != null) coinCounterUI.UpdateScore(score);
+
+        if (coinsRemaining <= 0)
         {
-            scoreText.text = "Score: " + score;
-        }
-        else
-        {
-            Debug.LogWarning("Score Text UI is not assigned in the GameManager.");
+            gameEnded = true;
+
+            if (settingsMenu != null)
+                settingsMenu.ShowMenu(true);
         }
     }
 }
